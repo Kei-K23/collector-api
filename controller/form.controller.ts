@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
 import {
   CreateFormSchema,
+  DeleteFormSchema,
   GetAllFormsByUserIdSchema,
+  GetFormByFormIdAndUserIdSchema,
   UpdateFormSchema,
 } from "../schema/form.schema";
 import {
   createForm,
+  deleteForm,
   getAllFormsByUserId,
+  getFormByFormIdAndUserId,
   updateForm,
 } from "../services/forms.service";
 
@@ -48,11 +52,35 @@ export async function updateFormHandler(
       },
     });
 
-    return res.status(201).json({
-      status: 201,
+    return res.status(200).json({
+      status: 200,
       success: true,
       message: "Successfully edited the form.",
       data,
+    });
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json({
+        status: 500,
+        success: false,
+        message: e.message,
+      })
+      .end();
+  }
+}
+
+export async function deleteFormHandler(
+  req: Request<DeleteFormSchema>,
+  res: Response
+) {
+  try {
+    await deleteForm(req.params);
+
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      message: "Successfully deleted the form.",
     });
   } catch (e: any) {
     return res
@@ -73,6 +101,38 @@ export async function getAllFormsByUserIdHandler(
   try {
     const { userId } = req.query;
     const data = await getAllFormsByUserId({ userId });
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      data,
+    });
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json({
+        status: 500,
+        success: false,
+        message: e.message,
+      })
+      .end();
+  }
+}
+
+export async function getFormByFormIdAndUserIdHandler(
+  req: Request<
+    GetFormByFormIdAndUserIdSchema["params"],
+    {},
+    {},
+    GetFormByFormIdAndUserIdSchema["query"]
+  >,
+  res: Response
+) {
+  try {
+    const { userId } = req.query;
+    const { formId } = req.params;
+
+    const data = await getFormByFormIdAndUserId({ userId, formId });
+
     return res.status(200).json({
       status: 200,
       success: true,

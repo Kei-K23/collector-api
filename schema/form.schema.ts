@@ -35,8 +35,34 @@ export const updateFormSchema = z.object({
   }),
 });
 
-// get form with user id validation
+// update form validation
+export const deleteFormSchema = z.object({
+  params: z.object({
+    formId: z.string({
+      required_error: "Form id is required!",
+    }),
+    userId: z.string({
+      required_error: "User id is required!",
+    }),
+  }),
+});
+
+// get forms with user id validation
 export const getAllFormsByUserIdSchema = z.object({
+  query: z.object({
+    userId: z.string({
+      required_error: "User id is required!",
+    }),
+  }),
+});
+
+// get form with form id and user id validation
+export const getFormByFormIdAndUserIdSchema = z.object({
+  params: z.object({
+    formId: z.string({
+      required_error: "Form id is required!",
+    }),
+  }),
   query: z.object({
     userId: z.string({
       required_error: "User id is required!",
@@ -50,4 +76,10 @@ export type GetAllFormsByUserIdSchema = z.infer<
   typeof getAllFormsByUserIdSchema
 >["query"];
 
+export type GetFormByFormIdAndUserIdSchema = z.infer<
+  typeof getFormByFormIdAndUserIdSchema
+>;
+
 export type UpdateFormSchema = z.infer<typeof updateFormSchema>;
+
+export type DeleteFormSchema = z.infer<typeof deleteFormSchema>["params"];

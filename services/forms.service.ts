@@ -1,6 +1,11 @@
 import { db } from "../lib/db";
-import { CreateFormSchema, UpdateFormSchema } from "../schema/form.schema";
+import {
+  CreateFormSchema,
+  DeleteFormSchema,
+  UpdateFormSchema,
+} from "../schema/form.schema";
 
+// create new form
 export async function createForm({ data }: { data: CreateFormSchema }) {
   try {
     return await db.form.create({
@@ -11,6 +16,7 @@ export async function createForm({ data }: { data: CreateFormSchema }) {
   }
 }
 
+// update the form
 export async function updateForm({ data }: { data: UpdateFormSchema }) {
   try {
     return await db.form.update({
@@ -26,6 +32,21 @@ export async function updateForm({ data }: { data: UpdateFormSchema }) {
   }
 }
 
+// delete the form
+export async function deleteForm({ formId, userId }: DeleteFormSchema) {
+  try {
+    return await db.form.delete({
+      where: {
+        id: formId,
+        userId,
+      },
+    });
+  } catch (e: any) {
+    throw new Error("Something went wrong when deleting form.");
+  }
+}
+
+// get all forms with user id
 export async function getAllFormsByUserId({ userId }: { userId: string }) {
   try {
     return await db.form.findMany({
@@ -35,5 +56,25 @@ export async function getAllFormsByUserId({ userId }: { userId: string }) {
     });
   } catch (e: any) {
     throw new Error("Something went wrong when getting forms.");
+  }
+}
+
+// get form with form id and user id
+export async function getFormByFormIdAndUserId({
+  userId,
+  formId,
+}: {
+  userId: string;
+  formId: string;
+}) {
+  try {
+    return await db.form.findUnique({
+      where: {
+        id: formId,
+        userId,
+      },
+    });
+  } catch (e: any) {
+    throw new Error("Something went wrong when getting form.");
   }
 }
