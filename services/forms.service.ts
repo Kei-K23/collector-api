@@ -7,6 +7,8 @@ export async function createForm({ data }: { data: CreateFormSchema }) {
       data,
     });
   } catch (e: any) {
+    console.log(e);
+
     throw new Error("Something went wrong when creating form");
   }
 }
