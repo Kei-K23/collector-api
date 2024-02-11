@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
   createFormHandler,
-  getFormsHandler,
+  getAllFormsByUserIdHandler,
 } from "../controller/form.controller";
 
 export default (router: Router) => {
-  router.get("/forms", getFormsHandler);
+  router.get("/forms", getAllFormsByUserIdHandler);
   router.post("/forms", createFormHandler);
 };

@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
-import { CreateFormSchema } from "../schema/form.schema";
-import { createForm } from "../services/forms.service";
+import {
+  CreateFormSchema,
+  GetAllFormsByUserIdSchema,
+} from "../schema/form.schema";
+import { createForm, getAllFormsByUserId } from "../services/forms.service";
 
 export async function createFormHandler(
   req: Request<{}, {}, CreateFormSchema>,
@@ -28,8 +31,26 @@ export async function createFormHandler(
   }
 }
 
-export async function getFormsHandler(req: Request, res: Response) {
-  return res.json({
-    success: true,
-  }).end;
+export async function getAllFormsByUserIdHandler(
+  req: Request<{}, {}, {}, GetAllFormsByUserIdSchema>,
+  res: Response
+) {
+  try {
+    const { userId } = req.query;
+    const data = await getAllFormsByUserId({ userId });
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      data,
+    });
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json({
+        status: 500,
+        success: false,
+        error: e.message,
+      })
+      .end();
+  }
 }

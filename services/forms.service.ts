@@ -7,8 +7,18 @@ export async function createForm({ data }: { data: CreateFormSchema }) {
       data,
     });
   } catch (e: any) {
-    console.log(e);
+    throw new Error("Something went wrong when creating form.");
+  }
+}
 
-    throw new Error("Something went wrong when creating form");
+export async function getAllFormsByUserId({ userId }: { userId: string }) {
+  try {
+    return await db.form.findMany({
+      where: {
+        userId,
+      },
+    });
+  } catch (e: any) {
+    throw new Error("Something went wrong when getting forms.");
   }
 }

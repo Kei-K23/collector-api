@@ -7,6 +7,6 @@ export async function createUser({ data }: { data: CreateUserSchema }) {
       data,
     });
   } catch (e: any) {
-    throw new Error("Something went wrong when creating user");
+    throw new Error("Something went wrong when creating user.");
   }
 }
