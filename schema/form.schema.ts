@@ -3,13 +3,35 @@ import z from "zod";
 // create new form validation
 export const createFormSchema = z.object({
   body: z.object({
-    title: z.string({
-      required_error: "Title is required!",
-    }),
-    description: z.string({}).optional(),
+    title: z
+      .string({
+        required_error: "Title is required!",
+      })
+      .min(2, {
+        message: "Title should be at least 2 character2.",
+      }),
+    description: z.string().optional(),
     userId: z.string({
       required_error: "User id is required!",
     }),
+  }),
+});
+
+// update form validation
+export const updateFormSchema = z.object({
+  params: z.object({
+    formId: z.string({
+      required_error: "Form id is required!",
+    }),
+  }),
+  body: z.object({
+    title: z
+      .string()
+      .min(2, {
+        message: "Title should be at least 2 characters.",
+      })
+      .optional(),
+    description: z.string().optional(),
   }),
 });
 
@@ -27,3 +49,5 @@ export type CreateFormSchema = z.infer<typeof createFormSchema>["body"];
 export type GetAllFormsByUserIdSchema = z.infer<
   typeof getAllFormsByUserIdSchema
 >["query"];
+
+export type UpdateFormSchema = z.infer<typeof updateFormSchema>;

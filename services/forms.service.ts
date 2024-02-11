@@ -1,5 +1,5 @@
 import { db } from "../lib/db";
-import { CreateFormSchema } from "../schema/form.schema";
+import { CreateFormSchema, UpdateFormSchema } from "../schema/form.schema";
 
 export async function createForm({ data }: { data: CreateFormSchema }) {
   try {
@@ -8,6 +8,21 @@ export async function createForm({ data }: { data: CreateFormSchema }) {
     });
   } catch (e: any) {
     throw new Error("Something went wrong when creating form.");
+  }
+}
+
+export async function updateForm({ data }: { data: UpdateFormSchema }) {
+  try {
+    return await db.form.update({
+      where: {
+        id: data.params.formId,
+      },
+      data: {
+        ...data.body,
+      },
+    });
+  } catch (e: any) {
+    throw new Error("Something went wrong when updating form.");
   }
 }
 
