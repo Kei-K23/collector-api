@@ -1,6 +1,6 @@
 import config from "config";
 
-import server from "../utils/server";
+import server from "../lib/server";
 
 const PORT = config.get<number>("PORT");
 

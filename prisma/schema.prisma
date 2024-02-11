@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  username String @unique
+  email    String
+  imageUrl String @db.Text
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  form      Form[]
+  response  Response[]
+}
+
+model Form {
+  id          String  @id @default(uuid())
+  title       String
+  description String? @db.Inet
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Question Question[]
+  response Response[]
+
+  @@index([userId])
+}
+
+enum QuestionType {
+  SHORT_ANSWER
+  PARAGRAPH
+  MULTIPLE_CHOICE
+  CHECKBOXES
+  DROPDOWN
+}
+
+model Question {
+  id String @id @default(uuid())
+
+  formId String
+  form   Form   @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  text        String       @db.Text
+  description String?      @db.Text
+  type        QuestionType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  questionOption QuestionOption[]
+}
+
+model QuestionOption {
+  id String @id @default(uuid())
+
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  option String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Response {
+  id String @id @default(uuid())
+
+  formId String
+  form   Form   @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  answer    Answer[]
+}
+
+model Answer {
+  id String @id @default(uuid())
+
+  responseId String
+  response   Response @relation(fields: [responseId], references: [id], onDelete: Cascade)
+
+  text String       @db.Text
+  type QuestionType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  answerOption AnswerOption[]
+}
+
+model AnswerOption {
+  id String @id @default(uuid())
+
+  answerId String
+  answer   Answer @relation(fields: [answerId], references: [id], onDelete: Cascade)
+
+  option String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
