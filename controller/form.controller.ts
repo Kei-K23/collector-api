@@ -26,6 +26,7 @@ export async function createFormHandler(
     return res.status(201).json({
       status: 201,
       success: true,
+      message: "Successfully created new form.",
       data: form,
     });
   } catch (e: any) {

@@ -32,7 +32,7 @@ export async function updateUser({ data }: { data: UpdateUserSchema }) {
 
 export async function deleteUser({ userId }: DeleteUserSchema) {
   try {
-    return await db.user.delete({
+    await db.user.delete({
       where: {
         id: userId,
       },

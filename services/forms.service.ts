@@ -35,7 +35,7 @@ export async function updateForm({ data }: { data: UpdateFormSchema }) {
 // delete the form
 export async function deleteForm({ formId, userId }: DeleteFormSchema) {
   try {
-    return await db.form.delete({
+    await db.form.delete({
       where: {
         id: formId,
         userId,
