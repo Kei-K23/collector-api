@@ -4,12 +4,13 @@ import {
   DeleteFormSchema,
   UpdateFormSchema,
 } from "../schema/form.schema";
+import { CreateQuestionSchema } from "../schema/questions.schema";
 
 // create new question
-export async function createQuestion({ data }: { data: any }) {
+export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
   try {
-    return await db.question.create({
-      data,
+    return await db.question.createMany({
+      data: [...data.data],
     });
   } catch (e: any) {
     throw new Error("Something went wrong when creating question.");
