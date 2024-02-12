@@ -25,15 +25,11 @@ export const createQuestionSchema = z.object({
         questionOption: z
           .array(
             z.object({
-              questionId: z.string({
-                required_error: "Question id is required!",
-              }),
               option: z
                 .string({
                   required_error: "Option is required",
                 })
-                .min(2, { message: "Option should be at least 2 characters." })
-                .optional(),
+                .min(2, { message: "Option should be at least 2 characters." }),
             })
           )
           .optional(),

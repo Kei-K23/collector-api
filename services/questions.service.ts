@@ -8,12 +8,50 @@ import { CreateQuestionSchema } from "../schema/questions.schema";
 
 // create new question
 export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
+  const { data: questionData } = data;
+
   try {
-    return await db.question.createMany({
-      data: [...data.data],
-    });
+    const createdQuestions = await Promise.all(
+      questionData.map(async (question) => {
+        const { formId, text, type, questionOption } = question;
+
+        let createdQuestion;
+
+        if (questionOption && questionOption.length > 0) {
+          // If questionOption is present and not empty
+          createdQuestion = await db.question.create({
+            data: {
+              formId,
+              text,
+              type,
+              questionOption: {
+                createMany: {
+                  data: questionOption,
+                },
+              },
+            },
+            include: {
+              questionOption: true,
+            },
+          });
+        } else {
+          // If questionOption is absent or empty
+          createdQuestion = await db.question.create({
+            data: {
+              formId,
+              text,
+              type,
+            },
+          });
+        }
+
+        return createdQuestion;
+      })
+    );
+
+    return createdQuestions;
   } catch (e: any) {
-    throw new Error("Something went wrong when creating question.");
+    throw new Error("Something went wrong when creating questions.");
   }
 }
 

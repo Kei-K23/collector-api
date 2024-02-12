@@ -74,7 +74,11 @@ export async function getFormByFormIdAndUserId({
         userId,
       },
       include: {
-        question: true,
+        question: {
+          include: {
+            questionOption: true,
+          },
+        },
         response: true,
       },
     });
