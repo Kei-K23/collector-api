@@ -73,6 +73,10 @@ export async function getFormByFormIdAndUserId({
         id: formId,
         userId,
       },
+      include: {
+        question: true,
+        response: true,
+      },
     });
   } catch (e: any) {
     throw new Error("Something went wrong when getting form.");
