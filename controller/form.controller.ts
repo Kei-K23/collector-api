@@ -56,7 +56,7 @@ export async function updateFormHandler(
     return res.status(200).json({
       status: 200,
       success: true,
-      message: "Successfully edited the form.",
+      message: "Successfully updated the form.",
       data,
     });
   } catch (e: any) {

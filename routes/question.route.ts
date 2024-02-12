@@ -2,8 +2,16 @@ import { Router } from "express";
 
 import resourceValidation from "../middlewares/resourceValidation";
 
-import { createQuestionSchema } from "../schema/questions.schema";
-import { createQuestionHandler } from "../controller/question.controller";
+import {
+  createQuestionSchema,
+  deleteQuestionSchema,
+  updateQuestionSchema,
+} from "../schema/questions.schema";
+import {
+  createQuestionHandler,
+  deleteQuestionHandler,
+  updateQuestionHandler,
+} from "../controller/question.controller";
 
 export default (router: Router) => {
   router.post(
@@ -11,14 +19,14 @@ export default (router: Router) => {
     resourceValidation(createQuestionSchema),
     createQuestionHandler
   );
-  // router.put(
-  //   "/forms/:formId",
-  //   resourceValidation(updateFormSchema),
-  //   updateFormHandler
-  // );
-  // router.delete(
-  //   "/forms/:formId/:userId",
-  //   resourceValidation(deleteFormSchema),
-  //   deleteFormHandler
-  // );
+  router.put(
+    "/questions/:questionId/:formId",
+    resourceValidation(updateQuestionSchema),
+    updateQuestionHandler
+  );
+  router.delete(
+    "/questions/:questionId/:formId",
+    resourceValidation(deleteQuestionSchema),
+    deleteQuestionHandler
+  );
 };
