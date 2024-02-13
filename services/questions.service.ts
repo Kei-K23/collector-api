@@ -53,6 +53,7 @@ export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
     throw new Error("Something went wrong when creating questions.");
   }
 }
+
 // update the question
 export async function updateQuestion({ data }: { data: UpdateQuestionSchema }) {
   try {
@@ -126,8 +127,6 @@ export async function deleteQuestion({
       },
     });
   } catch (e: any) {
-    console.log(e);
-
     throw new Error("Something went wrong when deleting question.");
   }
 }
