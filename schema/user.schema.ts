@@ -14,8 +14,8 @@ export const createUserSchema = z.object({
       .string({
         required_error: "User name is required!",
       })
-      .min(2, {
-        message: "User name should be at least 2 characters.",
+      .min(1, {
+        message: "User name should be at least 1 characters.",
       }),
     email: z
       .string({
@@ -45,8 +45,8 @@ export const updateUserSchema = z.object({
       .optional(),
     username: z
       .string()
-      .min(2, {
-        message: "User name should be at least 2 characters.",
+      .min(1, {
+        message: "User name should be at least 1 characters.",
       })
       .optional(),
     email: z.string().email().optional(),
