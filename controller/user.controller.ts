@@ -8,7 +8,7 @@ import {
 
 export async function createUserHandler(
   req: Request<{}, {}, CreateUserSchema>,
-  res: Response
+  res: Response,
 ) {
   try {
     const data = req.body;
@@ -35,7 +35,7 @@ export async function createUserHandler(
 
 export async function updateUserHandler(
   req: Request<UpdateUserSchema["params"], {}, UpdateUserSchema["body"]>,
-  res: Response
+  res: Response,
 ) {
   try {
     const user = await updateUser({
@@ -65,11 +65,11 @@ export async function updateUserHandler(
 
 export async function deleteUserHandler(
   req: Request<DeleteUserSchema>,
-  res: Response
+  res: Response,
 ) {
   try {
     await deleteUser({
-      userId: req.params.userId,
+      externalUserId: req.params.externalUserId,
     });
 
     return res.status(200).json({

@@ -23,14 +23,17 @@ export const createUserSchema = z.object({
       })
       .email(),
     imageUrl: z.string().optional(),
+    externalUserId: z.string({
+      required_error: "External user id is required!",
+    }),
   }),
 });
 
 // update user validation
 export const updateUserSchema = z.object({
   params: z.object({
-    userId: z.string({
-      required_error: "User id is required!",
+    externalUserId: z.string({
+      required_error: "External user id is required!",
     }),
   }),
   body: z.object({
@@ -54,8 +57,8 @@ export const updateUserSchema = z.object({
 // update user validation
 export const deleteUserSchema = z.object({
   params: z.object({
-    userId: z.string({
-      required_error: "User id is required!",
+    externalUserId: z.string({
+      required_error: "External user id is required!",
     }),
   }),
 });

@@ -15,16 +15,16 @@ export default (router: Router) => {
   router.post(
     "/users",
     resourceValidation(createUserSchema),
-    createUserHandler
+    createUserHandler,
   );
   router.put(
-    "/users/:userId",
+    "/users/:externalUserId",
     resourceValidation(updateUserSchema),
-    updateUserHandler
+    updateUserHandler,
   );
   router.delete(
-    "/users/:userId",
+    "/users/:externalUserId",
     resourceValidation(deleteUserSchema),
-    deleteUserHandler
+    deleteUserHandler,
   );
 };

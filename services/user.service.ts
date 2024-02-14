@@ -19,7 +19,7 @@ export async function updateUser({ data }: { data: UpdateUserSchema }) {
   try {
     return await db.user.update({
       where: {
-        id: data.params.userId,
+        externalUserId: data.params.externalUserId,
       },
       data: {
         ...data.body,
@@ -30,11 +30,11 @@ export async function updateUser({ data }: { data: UpdateUserSchema }) {
   }
 }
 
-export async function deleteUser({ userId }: DeleteUserSchema) {
+export async function deleteUser({ externalUserId }: DeleteUserSchema) {
   try {
     await db.user.delete({
       where: {
-        id: userId,
+        externalUserId,
       },
     });
   } catch (e: any) {
