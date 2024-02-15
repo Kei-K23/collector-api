@@ -21,7 +21,7 @@ export const createQuestionSchema = z.object({
           "DROPDOWN",
         ]),
         description: z.string().optional(),
-
+        order: z.number(),
         questionOption: z
           .array(
             z.object({
@@ -30,10 +30,10 @@ export const createQuestionSchema = z.object({
                   required_error: "Option is required",
                 })
                 .min(2, { message: "Option should be at least 2 characters." }),
-            })
+            }),
           )
           .optional(),
-      })
+      }),
     ),
   }),
 });
@@ -72,7 +72,7 @@ export const updateQuestionSchema = z.object({
               required_error: "Option is required",
             })
             .min(2, { message: "Option should be at least 2 characters." }),
-        })
+        }),
       )
       .optional(),
   }),

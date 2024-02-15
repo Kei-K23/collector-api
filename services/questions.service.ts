@@ -12,7 +12,7 @@ export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
   try {
     const createdQuestions = await Promise.all(
       questionData.map(async (question) => {
-        const { formId, text, type, questionOption } = question;
+        const { formId, text, type, questionOption, order } = question;
 
         let createdQuestion;
 
@@ -45,7 +45,7 @@ export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
         }
 
         return createdQuestion;
-      })
+      }),
     );
 
     return createdQuestions;
@@ -104,7 +104,7 @@ export async function updateQuestion({ data }: { data: UpdateQuestionSchema }) {
               },
             });
           }
-        })
+        }),
       );
     }
 

@@ -41,3 +41,15 @@ export async function deleteUser({ externalUserId }: DeleteUserSchema) {
     throw new Error("Something went wrong when deleting user.");
   }
 }
+
+export async function getUserByExternalUserId(externalUserId: string) {
+  try {
+    return await db.user.findUnique({
+      where: {
+        externalUserId,
+      },
+    });
+  } catch (e: any) {
+    throw new Error("Something went wrong when getting user.");
+  }
+}

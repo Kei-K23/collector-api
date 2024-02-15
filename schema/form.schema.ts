@@ -11,8 +11,8 @@ export const createFormSchema = z.object({
         message: "Title should be at least 2 character2.",
       }),
     description: z.string().optional(),
-    userId: z.string({
-      required_error: "User id is required!",
+    externalUserId: z.string({
+      required_error: "External user id is required!",
     }),
   }),
 });
@@ -22,6 +22,9 @@ export const updateFormSchema = z.object({
   params: z.object({
     formId: z.string({
       required_error: "Form id is required!",
+    }),
+    externalUserId: z.string({
+      required_error: "External user id is required!",
     }),
   }),
   body: z.object({
@@ -49,9 +52,9 @@ export const deleteFormSchema = z.object({
 
 // get forms with user id validation
 export const getAllFormsByUserIdSchema = z.object({
-  query: z.object({
-    userId: z.string({
-      required_error: "User id is required!",
+  params: z.object({
+    externalUserId: z.string({
+      required_error: "External user id is required!",
     }),
   }),
 });
@@ -62,10 +65,8 @@ export const getFormByFormIdAndUserIdSchema = z.object({
     formId: z.string({
       required_error: "Form id is required!",
     }),
-  }),
-  query: z.object({
-    userId: z.string({
-      required_error: "User id is required!",
+    externalUserId: z.string({
+      required_error: "External user id is required!",
     }),
   }),
 });
@@ -74,7 +75,7 @@ export type CreateFormSchema = z.infer<typeof createFormSchema>["body"];
 
 export type GetAllFormsByUserIdSchema = z.infer<
   typeof getAllFormsByUserIdSchema
->["query"];
+>["params"];
 
 export type GetFormByFormIdAndUserIdSchema = z.infer<
   typeof getFormByFormIdAndUserIdSchema

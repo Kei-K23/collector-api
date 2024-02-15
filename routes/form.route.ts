@@ -17,28 +17,28 @@ import {
 
 export default (router: Router) => {
   router.get(
-    "/forms",
+    "/forms/:externalUserId",
     resourceValidation(getAllFormsByUserIdSchema),
-    getAllFormsByUserIdHandler
+    getAllFormsByUserIdHandler,
   );
   router.get(
-    "/forms/:formId",
+    "/forms/:externalUserId/:formId",
     resourceValidation(getFormByFormIdAndUserIdSchema),
-    getFormByFormIdAndUserIdHandler
+    getFormByFormIdAndUserIdHandler,
   );
   router.post(
     "/forms",
     resourceValidation(createFormSchema),
-    createFormHandler
+    createFormHandler,
   );
   router.put(
-    "/forms/:formId",
+    "/forms/:externalUserId/:formId",
     resourceValidation(updateFormSchema),
-    updateFormHandler
+    updateFormHandler,
   );
   router.delete(
     "/forms/:formId/:userId",
     resourceValidation(deleteFormSchema),
-    deleteFormHandler
+    deleteFormHandler,
   );
 };

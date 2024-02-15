@@ -16,7 +16,7 @@ import {
 
 export async function createFormHandler(
   req: Request<{}, {}, CreateFormSchema>,
-  res: Response
+  res: Response,
 ) {
   try {
     const data = req.body;
@@ -43,7 +43,7 @@ export async function createFormHandler(
 
 export async function updateFormHandler(
   req: Request<UpdateFormSchema["params"], {}, UpdateFormSchema["body"]>,
-  res: Response
+  res: Response,
 ) {
   try {
     const data = await updateForm({
@@ -73,7 +73,7 @@ export async function updateFormHandler(
 
 export async function deleteFormHandler(
   req: Request<DeleteFormSchema>,
-  res: Response
+  res: Response,
 ) {
   try {
     await deleteForm(req.params);
@@ -96,12 +96,12 @@ export async function deleteFormHandler(
 }
 
 export async function getAllFormsByUserIdHandler(
-  req: Request<{}, {}, {}, GetAllFormsByUserIdSchema>,
-  res: Response
+  req: Request<GetAllFormsByUserIdSchema>,
+  res: Response,
 ) {
   try {
-    const { userId } = req.query;
-    const data = await getAllFormsByUserId({ userId });
+    const { externalUserId } = req.params;
+    const data = await getAllFormsByUserId({ externalUserId });
     return res.status(200).json({
       status: 200,
       success: true,
@@ -120,19 +120,13 @@ export async function getAllFormsByUserIdHandler(
 }
 
 export async function getFormByFormIdAndUserIdHandler(
-  req: Request<
-    GetFormByFormIdAndUserIdSchema["params"],
-    {},
-    {},
-    GetFormByFormIdAndUserIdSchema["query"]
-  >,
-  res: Response
+  req: Request<GetFormByFormIdAndUserIdSchema["params"]>,
+  res: Response,
 ) {
   try {
-    const { userId } = req.query;
-    const { formId } = req.params;
+    const { formId, externalUserId } = req.params;
 
-    const data = await getFormByFormIdAndUserId({ userId, formId });
+    const data = await getFormByFormIdAndUserId({ externalUserId, formId });
 
     return res.status(200).json({
       status: 200,
