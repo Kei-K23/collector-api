@@ -63,6 +63,7 @@ export const updateQuestionSchema = z.object({
       ])
       .optional(),
     description: z.string().optional(),
+    order: z.number().optional(),
     questionOption: z
       .array(
         z.object({

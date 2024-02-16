@@ -12,7 +12,7 @@ import {
 
 export async function createQuestionHandler(
   req: Request<{}, {}, CreateQuestionSchema>,
-  res: Response
+  res: Response,
 ) {
   try {
     const data = req.body;
@@ -43,7 +43,7 @@ export async function updateQuestionHandler(
     {},
     UpdateQuestionSchema["body"]
   >,
-  res: Response
+  res: Response,
 ) {
   try {
     const data = await updateQuestion({
@@ -73,7 +73,7 @@ export async function updateQuestionHandler(
 
 export async function deleteQuestionHandler(
   req: Request<DeleteQuestionSchema>,
-  res: Response
+  res: Response,
 ) {
   try {
     await deleteQuestion(req.params);

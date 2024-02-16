@@ -12,7 +12,8 @@ export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
   try {
     const createdQuestions = await Promise.all(
       questionData.map(async (question) => {
-        const { formId, text, type, questionOption, order } = question;
+        const { formId, text, type, questionOption, order, description } =
+          question;
 
         let createdQuestion;
 
@@ -23,6 +24,8 @@ export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
               formId,
               text,
               type,
+              description,
+              order,
               questionOption: {
                 createMany: {
                   data: questionOption,
@@ -37,7 +40,9 @@ export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
           // If questionOption is absent or empty
           createdQuestion = await db.question.create({
             data: {
+              order,
               formId,
+              description,
               text,
               type,
             },
@@ -58,7 +63,6 @@ export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
 export async function updateQuestion({ data }: { data: UpdateQuestionSchema }) {
   try {
     let updatedQuestion;
-
     // Update the question
     updatedQuestion = await db.question.update({
       where: {
@@ -69,6 +73,7 @@ export async function updateQuestion({ data }: { data: UpdateQuestionSchema }) {
         text: data.body.text,
         type: data.body.type,
         description: data.body.description,
+        order: data.body.order,
       },
       include: {
         questionOption: true,

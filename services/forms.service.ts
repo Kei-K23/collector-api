@@ -115,6 +115,9 @@ export async function getFormByFormIdAndUserId({
           include: {
             questionOption: true,
           },
+          orderBy: {
+            createdAt: "desc",
+          },
         },
         response: {
           include: {
@@ -130,8 +133,6 @@ export async function getFormByFormIdAndUserId({
       },
     });
   } catch (e: any) {
-    console.log(e);
-
     throw new Error("Something went wrong when getting form.");
   }
 }
