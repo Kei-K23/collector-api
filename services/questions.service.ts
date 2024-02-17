@@ -1,3 +1,4 @@
+import { QuestionType } from "@prisma/client";
 import { db } from "../lib/db";
 import {
   CreateQuestionSchema,
@@ -60,7 +61,13 @@ export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
 }
 
 // update the question
-export async function updateQuestion({ data }: { data: UpdateQuestionSchema }) {
+export async function updateQuestion({
+  data,
+  questionId,
+}: {
+  data: UpdateQuestionSchema;
+  questionId: string;
+}) {
   try {
     let updatedQuestion;
     // Update the question
@@ -80,6 +87,23 @@ export async function updateQuestion({ data }: { data: UpdateQuestionSchema }) {
       },
     });
 
+    if (
+      data.body.type === QuestionType["SHORT_ANSWER"] ||
+      data.body.type === QuestionType["PARAGRAPH"]
+    ) {
+      if (
+        updatedQuestion.questionOption &&
+        updatedQuestion.questionOption.length > 0
+      ) {
+        await db.questionOption.deleteMany({
+          where: {
+            questionId: questionId,
+          },
+        });
+        return;
+      }
+    }
+
     // Update question options if provided
     if (data.body.questionOption && data.body.questionOption.length > 0) {
       await Promise.all(
@@ -92,6 +116,7 @@ export async function updateQuestion({ data }: { data: UpdateQuestionSchema }) {
               },
               data: {
                 option: option.option,
+                order: option.order,
               },
               include: {
                 question: true,
@@ -103,6 +128,7 @@ export async function updateQuestion({ data }: { data: UpdateQuestionSchema }) {
               data: {
                 questionId: data.params.questionId,
                 option: option.option,
+                order: option.order,
               },
               include: {
                 question: true,

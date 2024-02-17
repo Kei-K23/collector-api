@@ -51,6 +51,7 @@ export async function updateQuestionHandler(
         body: req.body,
         params: req.params,
       },
+      questionId: req.params.questionId,
     });
 
     return res.status(200).json({

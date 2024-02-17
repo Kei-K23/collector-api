@@ -113,10 +113,11 @@ export async function getFormByFormIdAndUserId({
       include: {
         question: {
           include: {
-            questionOption: true,
-          },
-          orderBy: {
-            createdAt: "desc",
+            questionOption: {
+              orderBy: {
+                order: "asc",
+              },
+            },
           },
         },
         response: {
