@@ -119,6 +119,9 @@ export async function getFormByFormIdAndUserId({
               },
             },
           },
+          orderBy: {
+            order: "asc",
+          },
         },
         response: {
           include: {

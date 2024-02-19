@@ -93,10 +93,26 @@ export const deleteQuestionSchema = z.object({
   }),
 });
 
+// update question validation
+export const deleteQuestionOptionSchema = z.object({
+  params: z.object({
+    questionId: z.string({
+      required_error: "Question id is required!",
+    }),
+    questionOptionId: z.string({
+      required_error: "Question option id is required!",
+    }),
+  }),
+});
+
 export type CreateQuestionSchema = z.infer<typeof createQuestionSchema>["body"];
 
 export type UpdateQuestionSchema = z.infer<typeof updateQuestionSchema>;
 
 export type DeleteQuestionSchema = z.infer<
   typeof deleteQuestionSchema
+>["params"];
+
+export type DeleteQuestionOptionSchema = z.infer<
+  typeof deleteQuestionOptionSchema
 >["params"];

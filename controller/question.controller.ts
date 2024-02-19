@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
 import {
   CreateQuestionSchema,
+  DeleteQuestionOptionSchema,
   DeleteQuestionSchema,
   UpdateQuestionSchema,
 } from "../schema/questions.schema";
 import {
   createQuestion,
   deleteQuestion,
+  deleteQuestionOption,
   updateQuestion,
 } from "../services/questions.service";
 
@@ -83,6 +85,30 @@ export async function deleteQuestionHandler(
       status: 200,
       success: true,
       message: "Successfully deleted the question.",
+    });
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json({
+        status: 500,
+        success: false,
+        message: e.message,
+      })
+      .end();
+  }
+}
+
+export async function deleteQuestionOptionHandler(
+  req: Request<DeleteQuestionOptionSchema>,
+  res: Response,
+) {
+  try {
+    await deleteQuestionOption(req.params);
+
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      message: "Successfully deleted the question option.",
     });
   } catch (e: any) {
     return res

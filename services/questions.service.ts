@@ -2,6 +2,7 @@ import { QuestionType } from "@prisma/client";
 import { db } from "../lib/db";
 import {
   CreateQuestionSchema,
+  DeleteQuestionOptionSchema,
   DeleteQuestionSchema,
   UpdateQuestionSchema,
 } from "../schema/questions.schema";
@@ -20,6 +21,7 @@ export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
 
         if (questionOption && questionOption.length > 0) {
           // If questionOption is present and not empty
+
           createdQuestion = await db.question.create({
             data: {
               formId,
@@ -159,5 +161,22 @@ export async function deleteQuestion({
     });
   } catch (e: any) {
     throw new Error("Something went wrong when deleting question.");
+  }
+}
+
+// delete the question option
+export async function deleteQuestionOption({
+  questionId,
+  questionOptionId,
+}: DeleteQuestionOptionSchema) {
+  try {
+    await db.questionOption.delete({
+      where: {
+        id: questionOptionId,
+        questionId: questionId,
+      },
+    });
+  } catch (e: any) {
+    throw new Error("Something went wrong when deleting question option.");
   }
 }
