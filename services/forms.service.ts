@@ -91,31 +91,34 @@ export async function getAllFormsByUserId({
 }
 
 // get form with form id and user id
-export async function getFormByFormIdAndUserId({
-  externalUserId,
-  formId,
-}: {
-  externalUserId: string;
-  formId: string;
-}) {
+export async function getFormByFormIdAndUserId({ formId }: { formId: string }) {
   try {
-    const user = await getUserByExternalUserId(externalUserId);
-
-    if (!user) {
-      throw new Error("Unauthorized user.");
-    }
-
     return await db.form.findUnique({
       where: {
         id: formId,
-        userId: user.id,
       },
       include: {
+        user: true,
         question: {
           include: {
             questionOption: {
+              include: {
+                answerOption: true,
+              },
               orderBy: {
                 order: "asc",
+              },
+            },
+            answer: {
+              include: {
+                answerOption: {
+                  orderBy: {
+                    createdAt: "desc",
+                  },
+                },
+              },
+              orderBy: {
+                createdAt: "desc",
               },
             },
           },

@@ -22,7 +22,7 @@ export default (router: Router) => {
     getAllFormsByUserIdHandler,
   );
   router.get(
-    "/forms/:externalUserId/:formId",
+    "/forms/detail/:formId",
     resourceValidation(getFormByFormIdAndUserIdSchema),
     getFormByFormIdAndUserIdHandler,
   );

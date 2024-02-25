@@ -1,5 +1,6 @@
 import { db } from "../lib/db";
 import { CreateResponseSchema } from "../schema/response.schema";
+import { getUserByExternalUserId } from "./user.service";
 
 // create new response
 //TODO: Need to improve the performance for creating answers
@@ -8,12 +9,14 @@ export async function createResponse({ data }: { data: CreateResponseSchema }) {
   let createdResponse: any; // this is the response model object
 
   try {
+    const user = await getUserByExternalUserId(userId);
+
     if (answer && answer.length > 0) {
       // If answer is present and not empty
       createdResponse = await db.response.create({
         data: {
           formId,
-          userId,
+          userId: user?.id!,
         },
         include: {
           user: true,
@@ -56,6 +59,7 @@ export async function createResponse({ data }: { data: CreateResponseSchema }) {
 
     return createdResponse;
   } catch (e: any) {
+    console.log(e);
     throw new Error("Something went wrong when creating responses.");
   }
 }

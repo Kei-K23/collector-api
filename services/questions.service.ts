@@ -53,7 +53,7 @@ export async function createQuestion({ data }: { data: CreateQuestionSchema }) {
         }
 
         return createdQuestion;
-      }),
+      })
     );
 
     return createdQuestions;
@@ -137,7 +137,7 @@ export async function updateQuestion({
               },
             });
           }
-        }),
+        })
       );
     }
 

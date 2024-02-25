@@ -124,9 +124,9 @@ export async function getFormByFormIdAndUserIdHandler(
   res: Response,
 ) {
   try {
-    const { formId, externalUserId } = req.params;
+    const { formId } = req.params;
 
-    const data = await getFormByFormIdAndUserId({ externalUserId, formId });
+    const data = await getFormByFormIdAndUserId({ formId });
 
     return res.status(200).json({
       status: 200,

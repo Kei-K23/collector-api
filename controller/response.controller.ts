@@ -48,12 +48,18 @@ export async function updateQuestionHandler(
   res: Response
 ) {
   try {
-    const data = await updateQuestion({
+    const updateData = {
       data: {
+        params: {
+          formId: req.params.formId,
+          questionId: req.params.questionId,
+        },
         body: req.body,
-        params: req.params,
       },
-    });
+      questionId: req.params.questionId,
+    };
+
+    const data = await updateQuestion(updateData);
 
     return res.status(200).json({
       status: 200,

@@ -11,15 +11,20 @@ import {
   deleteQuestionOption,
   updateQuestion,
 } from "../services/questions.service";
+import axios from "axios";
 
 export async function createQuestionHandler(
   req: Request<{}, {}, CreateQuestionSchema>,
-  res: Response,
+  res: Response
 ) {
   try {
     const data = req.body;
 
     const form = await createQuestion({ data });
+
+    axios.post("http://localhost:3000/api/webhooks/test", {
+      success: "This is webhook success",
+    });
 
     return res.status(201).json({
       status: 201,
@@ -45,16 +50,21 @@ export async function updateQuestionHandler(
     {},
     UpdateQuestionSchema["body"]
   >,
-  res: Response,
+  res: Response
 ) {
   try {
-    const data = await updateQuestion({
+    const updateData = {
       data: {
+        params: {
+          formId: req.params.formId,
+          questionId: req.params.questionId,
+        },
         body: req.body,
-        params: req.params,
       },
       questionId: req.params.questionId,
-    });
+    };
+
+    const data = await updateQuestion(updateData);
 
     return res.status(200).json({
       status: 200,
@@ -76,7 +86,7 @@ export async function updateQuestionHandler(
 
 export async function deleteQuestionHandler(
   req: Request<DeleteQuestionSchema>,
-  res: Response,
+  res: Response
 ) {
   try {
     await deleteQuestion(req.params);
@@ -100,7 +110,7 @@ export async function deleteQuestionHandler(
 
 export async function deleteQuestionOptionHandler(
   req: Request<DeleteQuestionOptionSchema>,
-  res: Response,
+  res: Response
 ) {
   try {
     await deleteQuestionOption(req.params);

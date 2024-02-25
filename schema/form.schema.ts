@@ -65,9 +65,6 @@ export const getFormByFormIdAndUserIdSchema = z.object({
     formId: z.string({
       required_error: "Form id is required!",
     }),
-    externalUserId: z.string({
-      required_error: "External user id is required!",
-    }),
   }),
 });
 
