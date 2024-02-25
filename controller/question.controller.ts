@@ -22,10 +22,6 @@ export async function createQuestionHandler(
 
     const form = await createQuestion({ data });
 
-    axios.post("http://localhost:3000/api/webhooks/test", {
-      success: "This is webhook success",
-    });
-
     return res.status(201).json({
       status: 201,
       success: true,
